@@ -28,16 +28,20 @@ interface MovieData {
   vote_average: number;
   vote_count: number;
 }
+
 /* ************************************************************************** */
 
 const Dashboard: React.FC = () => {
   const [repository, setRepository] = useState<Repository>({} as Repository);
-  const [add, setAdd] = useState(false);
+  const [adiciona, setAdiciona] = useState('');
 
-  const Adiciona = () => {
-    add ? setAdd(false) : setAdd(true);
+  const Add = (title: string) => {
+    setAdiciona(`${adiciona}, ${title}`);
   }
+  
 
+
+  console.log(adiciona);
   /* ***********************[API_KEY FROM TMDB]****************************** */
   const api_key = '2964b6cd71e6a379510ab626bdca951e';
   /* ************************************************************************ */
@@ -75,9 +79,9 @@ const Dashboard: React.FC = () => {
                     alt={movie.title}
                   />
                   <strong>{movie.title}</strong>
-                  <button type="button"  id="false" onClick={() => Adiciona()} >
+                  <button type="button"  id="false" onClick={() => Add(`${ movie.title }`)} >
                     <FiShoppingBag size={30} color='#fff' />
-                    <span>{ add === false ? "Adicionar no carrinho" : "Adicionado no carrinho" }</span>
+                    <span>Adicionar no carrinho"</span>
                   </button>
                </div>
               ))
