@@ -50,17 +50,19 @@ export const MovieContainer = styled.div`
       color: #cbcbd6;
     }
 
-    a {
+    button {
       display: flex;
       justify-content: center;
-      svg {
-        margin-top: 16px;
-      }
+      background-color: transparent;
+      margin-top: 16px;
+      border: 0;
+      color: #fff;
+      font-weight: bold;
+      margin-top: 16px;
+      margin-left: 10px;
 
-      p {
-        color: #fff;
-        margin-top: 16px;
-        margin-left: 16px;
+      svg {
+        margin-right: 15px;
       }
 
     }
