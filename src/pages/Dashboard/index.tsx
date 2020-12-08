@@ -52,6 +52,12 @@ const Dashboard: React.FC = () => {
     };
   }
 
+  async function Del(title: any) {
+    const index = carrinho.indexOf(title);
+      carrinho.splice(index, 1)
+      setCarrinho([...carrinho])
+  }
+
   
   /* ***********************[API_KEY FROM TMDB]****************************** */
   const api_key = '2964b6cd71e6a379510ab626bdca951e';
@@ -85,7 +91,15 @@ const Dashboard: React.FC = () => {
             <div className="produtos">
               {carrinho ? (
                   carrinho.map(title => (
+                    <div className="edit">
+                      <button
+                        type="button" 
+                        onClick={() => Del(`${title}`)}
+                      >
+                        Excluir
+                      </button>
                       <h2 key={`${title}`}>{title}</h2>
+                    </div>
                   ))
                 ) : (
                 <h2>Loading...</h2> 

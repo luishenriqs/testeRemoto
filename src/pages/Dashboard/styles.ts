@@ -30,9 +30,14 @@ export const Carrinho = styled.div`
   .produtos {
     margin-right: 60px;
 
-    div {
+    .edit {
       display: flex;
-      flex-direction: column;
+    }
+
+    button {
+      background-color: #ff0000;
+      color: #fff;
+      border-radius: 5px;
     }
 
     h2 {
