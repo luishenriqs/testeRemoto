@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { FiShoppingBag } from 'react-icons/fi';
 import GettingDates from '../../utils/gettingDates';
-import { WorkSpace, Container, MovieContainer } from './styles';
+import { WorkSpace, Container, MovieContainer, Carrinho } from './styles';
 
 /* ***************************[INTERFACES]*********************************** */
 interface Repository {
@@ -76,7 +76,18 @@ const Dashboard: React.FC = () => {
     <>
       <WorkSpace>
         <Container>
-          <h1>{carrinho}</h1>
+          <Carrinho>
+            <h1>MEU CARRINHO:</h1>
+            <div>
+              {carrinho ? (
+                  carrinho.map(title => (
+                      <h2 key={`${title}`}>{title}</h2>
+                  ))
+                ) : (
+                <h1>Loading...</h1> 
+              )}
+            </div>
+          </Carrinho>
           <h1>FILMES DO MÊS</h1>
           <MovieContainer>
             {results ? (

@@ -21,6 +21,27 @@ export const Container = styled.div`
   }
 `;
 
+export const Carrinho = styled.div`
+  background: #3d3d4d;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+
+  h1 {
+    color: #ffff00;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  h2 {
+    margin: 5px 0 0 10px;
+    color: #ffff00;
+  }
+`;
+
 export const MovieContainer = styled.div`
   display: inline-flex;
   flex-wrap: wrap;
