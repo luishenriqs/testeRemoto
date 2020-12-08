@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { FiShoppingBag } from 'react-icons/fi';
 import GettingDates from '../../utils/gettingDates';
+import formatValue from '../../utils/formatValue';
 import { WorkSpace, Container, MovieContainer, Carrinho } from './styles';
 
 /* ***************************[INTERFACES]*********************************** */
@@ -30,6 +31,8 @@ interface MovieData {
 
 interface Movies {
   title: string
+  id?: string
+  price: number
 }
 
 /* ************************************************************************** */
@@ -37,6 +40,7 @@ interface Movies {
 const Dashboard: React.FC = () => {
   const [repository, setRepository] = useState<Repository>({} as Repository);
   const [carrinho, setCarrinho] = useState<Movies[]>([]);
+  const price = 10;
 
   async function Add(title: any) {
     const index = carrinho.indexOf(title);
@@ -78,14 +82,32 @@ const Dashboard: React.FC = () => {
         <Container>
           <Carrinho>
             <h1>MEU CARRINHO:</h1>
-            <div>
+            <div className="produtos">
               {carrinho ? (
                   carrinho.map(title => (
                       <h2 key={`${title}`}>{title}</h2>
                   ))
                 ) : (
-                <h1>Loading...</h1> 
+                <h2>Loading...</h2> 
               )}
+            </div>
+            <div className="balance">
+              <div className="subTotal">
+                <h1>Sub-total:</h1>
+                <div className="prices">
+                  {carrinho ? (
+                      carrinho.map(title => (
+                        <h4 key={`${title}`}>{formatValue(price)}</h4>
+                      ))
+                    ) : (
+                    <h2>Loading...</h2> 
+                  )}
+                </div>
+              </div>
+              <div className="total">
+                <h1>Total:</h1>
+                <h4>{formatValue(price * carrinho.length)}</h4>
+              </div>
             </div>
           </Carrinho>
           <h1>FILMES DO MÊS</h1>
@@ -98,10 +120,16 @@ const Dashboard: React.FC = () => {
                     alt={movie.title}
                   />
                   <strong>{movie.title}</strong>
-                  <button type="button"  id="false" onClick={() => Add(`${movie.title}`)} >
-                    <FiShoppingBag size={30} color='#fff' />
+                  <button
+                    type="button" 
+                    onClick={() => Add(`${movie.title}`)}
+                  >
+                    <FiShoppingBag size={15} />
                     <span>Adicionar no carrinho"</span>
                   </button>
+                  <div className="price">
+                    <span>{formatValue(price)}</span>
+                  </div>
                </div>
               ))
             ) : (

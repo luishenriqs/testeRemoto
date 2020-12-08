@@ -27,19 +27,43 @@ export const Carrinho = styled.div`
   display: flex;
   align-items: center;
 
-  h1 {
-    color: #ffff00;
+  .produtos {
+    margin-right: 60px;
+
+    div {
+      display: flex;
+      flex-direction: column;
+    }
+
+    h2 {
+      margin: 5px 0 0 10px;
+      color: #ffff00;
+    }
   }
 
-  div {
-    display: flex;
-    flex-direction: column;
+  .subTotal {
+    display: flex; 
+    align-items: center; 
+    .prices {
+      display: flex;
+      flex-direction: column;
+    }
+
+    h4 {
+      margin: 5px 0 0 10px;
+      color: #ffff00;
+    }
   }
 
-  h2 {
-    margin: 5px 0 0 10px;
-    color: #ffff00;
+  .total {
+    display: flex; 
+    align-items: center; 
+
+    h4 {
+      color: #ffff00;
+    }
   }
+
 `;
 
 export const MovieContainer = styled.div`
@@ -69,7 +93,7 @@ export const MovieContainer = styled.div`
       font-size: 20px;
       font-weight: bold;
       color: #cbcbd6;
-    }
+    } 
 
     button {
       display: flex;
@@ -83,7 +107,20 @@ export const MovieContainer = styled.div`
       margin-left: 10px;
 
       svg {
-        margin-right: 15px;
+        margin-right: 9px;
+      }
+    }
+
+    .price {
+      margin-top: 10px;
+      svg {
+      color: #ffff00;
+      margin-right: 6px;
+      }
+
+      span {
+        color: #ffff00;
+        font-weight: bold;
       }
 
     }
