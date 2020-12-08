@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import api from '../../services/api';
 import { FiShoppingBag } from 'react-icons/fi';
 import GettingDates from '../../utils/gettingDates';
@@ -29,19 +28,27 @@ interface MovieData {
   vote_count: number;
 }
 
+interface Movies {
+  title: string
+}
+
 /* ************************************************************************** */
 
 const Dashboard: React.FC = () => {
   const [repository, setRepository] = useState<Repository>({} as Repository);
-  const [adiciona, setAdiciona] = useState('');
+  const [carrinho, setCarrinho] = useState<Movies[]>([]);
 
-  const Add = (title: string) => {
-    setAdiciona(`${adiciona}, ${title}`);
+  async function Add(title: any) {
+    const index = carrinho.indexOf(title);
+    if (index === -1) {
+      setCarrinho([...carrinho, title])
+    }else {
+      carrinho.splice(index, 1)
+      setCarrinho([...carrinho])
+    };
   }
+
   
-
-
-  console.log(adiciona);
   /* ***********************[API_KEY FROM TMDB]****************************** */
   const api_key = '2964b6cd71e6a379510ab626bdca951e';
   /* ************************************************************************ */
@@ -69,6 +76,7 @@ const Dashboard: React.FC = () => {
     <>
       <WorkSpace>
         <Container>
+          <h1>{carrinho}</h1>
           <h1>FILMES DO MÊS</h1>
           <MovieContainer>
             {results ? (
@@ -79,7 +87,7 @@ const Dashboard: React.FC = () => {
                     alt={movie.title}
                   />
                   <strong>{movie.title}</strong>
-                  <button type="button"  id="false" onClick={() => Add(`${ movie.title }`)} >
+                  <button type="button"  id="false" onClick={() => Add(`${movie.title}`)} >
                     <FiShoppingBag size={30} color='#fff' />
                     <span>Adicionar no carrinho"</span>
                   </button>
