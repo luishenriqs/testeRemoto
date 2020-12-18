@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import api from '../../services/api';
 import { FiShoppingBag } from 'react-icons/fi';
 import GettingDates from '../../utils/gettingDates';
@@ -29,34 +30,73 @@ interface MovieData {
   vote_count: number;
 }
 
-interface Movies {
-  title: string
-  id?: string
-  price: number
+interface Data {
+  title: any, 
+  poster_path: string,
 }
 
 /* ************************************************************************** */
 
 const Dashboard: React.FC = () => {
-  const [repository, setRepository] = useState<Repository>({} as Repository);
-  const [carrinho, setCarrinho] = useState<Movies[]>([]);
-  const price = 10;
 
-  async function Add(title: any) {
-    const index = carrinho.indexOf(title);
+  const [repository, setRepository] = useState<Repository>({} as Repository);
+  const [titles, setTitles] = useState<string[]>([]);
+  const [itens, setItens] = useState<Data[]>((() => {
+    const storaged = localStorage.getItem('@Carrinho:itens');
+    if (storaged) {
+      return JSON.parse(storaged);
+    }
+    return [];
+  }));
+  const price = 10;
+  const total = formatValue(price * titles.length);
+  const [totalCost, setTotalCost] = useState('');
+
+    useEffect(() => {
+    setTotalCost(total);
+  }, [total])
+
+  const history = useHistory();
+
+  
+  /* ****************************[DELETE]************************************ */
+  async function handleDelete(title: any) {
+    const index = titles.indexOf(title);
+      titles.splice(index, 1)
+      setTitles([...titles])
+  }
+  /* ************************************************************************ */
+
+  /* ****************************[BUY NOW]*********************************** */
+  const handleBuyNow = useCallback(
+    async () => {
+      localStorage.setItem('@Carrinho:itens', JSON.stringify(itens));
+      localStorage.setItem('@Carrinho:total', JSON.stringify(totalCost));
+
+      history.push('/buynow');
+    },
+    [history, totalCost, itens]
+  );
+
+  /* ************************************************************************ */
+
+  /* *************************[ADD OR REMOVE]******************************** */
+  async function handleAddOrRemove(title: string, poster_path: string) {
+    const item: Data = ({title, poster_path})
+
+
+    const index = titles.indexOf(title);
     if (index === -1) {
-      setCarrinho([...carrinho, title])
+      setTitles([...titles, title])
+      setItens([...itens, item])     
     }else {
-      carrinho.splice(index, 1)
-      setCarrinho([...carrinho])
+      titles.splice(index, 1)
+      itens.splice(index, 1)
+      setTitles([...titles])
+      setItens([...itens])
     };
   }
-
-  async function Del(title: any) {
-    const index = carrinho.indexOf(title);
-      carrinho.splice(index, 1)
-      setCarrinho([...carrinho])
-  }
+  /* ************************************************************************ */
 
   
   /* ***********************[API_KEY FROM TMDB]****************************** */
@@ -88,13 +128,13 @@ const Dashboard: React.FC = () => {
         <Container>
           <Carrinho>
             <h1>MEU CARRINHO:</h1>
-            <div className="produtos">
-              {carrinho ? (
-                  carrinho.map(title => (
-                    <div className="edit">
+            <div className="products">
+              {titles ? (
+                  titles.map(title => (
+                    <div key={`${title}`} className="edit">
                       <button
                         type="button" 
-                        onClick={() => Del(`${title}`)}
+                        onClick={() => handleDelete(`${title}`)}
                       >
                         Excluir
                       </button>
@@ -109,8 +149,8 @@ const Dashboard: React.FC = () => {
               <div className="subTotal">
                 <h1>Sub-total:</h1>
                 <div className="prices">
-                  {carrinho ? (
-                      carrinho.map(title => (
+                  {titles ? (
+                      titles.map(title => (
                         <h4 key={`${title}`}>{formatValue(price)}</h4>
                       ))
                     ) : (
@@ -120,8 +160,16 @@ const Dashboard: React.FC = () => {
               </div>
               <div className="total">
                 <h1>Total:</h1>
-                <h4>{formatValue(price * carrinho.length)}</h4>
+                <h4>{total}</h4>
               </div>
+            </div>
+            <div className="buynow">
+              <button
+                type="button" 
+                onClick={() => handleBuyNow()}
+              >
+                Finalizar Pedido
+              </button>
             </div>
           </Carrinho>
           <h1>FILMES DO MÊS</h1>
@@ -136,10 +184,10 @@ const Dashboard: React.FC = () => {
                   <strong>{movie.title}</strong>
                   <button
                     type="button" 
-                    onClick={() => Add(`${movie.title}`)}
+                    onClick={() => handleAddOrRemove(`${movie.title}`, `${movie.poster_path}`)}
                   >
                     <FiShoppingBag size={15} />
-                    <span>Adicionar no carrinho"</span>
+                    <span>Adicionar/Excluir"</span>
                   </button>
                   <div className="price">
                     <span>{formatValue(price)}</span>

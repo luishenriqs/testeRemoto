@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const WorkSpace = styled.div`
   background: #3d3d4d;
-  padding: 60px;
+  padding: 35px;
   display: flex;
   align-items: center;
 `;
@@ -27,7 +27,9 @@ export const Carrinho = styled.div`
   display: flex;
   align-items: center;
 
-  .produtos {
+  .products {
+    display: flex;
+    flex-direction: column;
     margin-right: 60px;
 
     .edit {
@@ -69,6 +71,19 @@ export const Carrinho = styled.div`
     }
   }
 
+  .buynow {
+    button {
+      background-color: #ddd;
+      color: #ff0000;
+      font-size: 16px;
+      height: 60px;
+      width: 120px;
+      border-radius: 5px;
+      font-weight: bold;
+      margin: 0 0 0 100px;
+    }
+  }
+
 `;
 
 export const MovieContainer = styled.div`
@@ -77,7 +92,7 @@ export const MovieContainer = styled.div`
   justify-content: flex-start;
 
   .box {
-    width: 400px;
+    width: 392px;
     height: 650px;
     display: flex;
     flex-direction: column;
@@ -106,7 +121,7 @@ export const MovieContainer = styled.div`
       background-color: transparent;
       margin-top: 16px;
       border: 0;
-      color: #fff;
+      color: #ff0000;
       font-weight: bold;
       margin-top: 16px;
       margin-left: 10px;
